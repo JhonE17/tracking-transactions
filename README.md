@@ -22,27 +22,102 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Tracking Transactions
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. Instalar **[NestJS CLI](https://docs.nestjs.com/#installation)** globalmente
 
-## Installation
+2. Clonar el repositorio
 
-```bash
-$ yarn install
+3. Instalar las depencias con el comando:
+
+```
+yarn install o npm install
 ```
 
-## Running the app
+3. Clonar el archivo **`.env.template`** y renombrarlo a **`.env`**
+
+4. Cambiar las variables de entorno
+
+5. Instalar **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** según la versión de tu sistema operativo
+
+6. Levantar la base de datos postgres
+
+```
+docker-compose up -d
+docker-compose up (Para revisar los logs)
+```
+
+7. Levantar el proyecto en modo de desarrollo con el comando:
+
+```
+yarn start:dev
+```
+## Execute SEED
 
 ```bash
-# development
-$ yarn run start
+http://localhost:3000/api/v1/seed
+```
 
-# watch mode
-$ yarn run start:dev
+## End ponits with Auth
 
-# production mode
-$ yarn run start:prod
+### Login
+
+```bash
+localhost:3000/api/v1/login 
+```
+
+### Payload
+
+```json
+{
+    "email": "miguel@test.com",
+    "password": "Je12345678."
+} 
+```
+
+### Start trip
+
+Only if you have the role of rider you can request a dirver.
+
+```bash
+localhost:3000/api/v1/transport/
+```
+
+### Finish trip
+
+Only if you have the role of driver you can finish the trip.
+
+```bash
+localhost:3000/api/v1/transport/db877a0a-8928-4dd5-9f3e-896d40782e9c
+```
+
+### Payload
+
+```json
+{
+    "lat": 6.258002694380637,
+    "lng": -75.56389492601065,
+    "type_method": "CARD"
+}
+```
+
+### Response
+
+```json
+{
+    "id": "db877a0a-8928-4dd5-9f3e-896d40782e9c",
+    "amount": 3500,
+    "type_method": "CARD",
+    "initial_coordinates": [
+        6.258002694380637,
+        -75.56389492601065
+    ],
+    "final_coordinates": [
+        6.258002694380637,
+        -75.56389492601065
+    ],
+    "status": "Complete"
+}
 ```
 
 ## Test
@@ -58,16 +133,8 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Support
+## Stack Usado
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- NestJS
+- Docker
+- Postgres
