@@ -20,10 +20,17 @@ export class AuthController {
 
   @Get('check-auth-status')
   @Auth()
-  checkAuthStatus(
-    @GetUser() user:User
-  ){
-    return this.authService.checkAuthStatus(user)
+  checkAuthStatus(@GetUser() user: User) {
+    return this.authService.checkAuthStatus(user);
   }
 
+  @Get()
+  findAll() {
+    return this.authService.findAll();
+  }
+
+  @Get('random/drive')
+  getRandomDriverUser(): Promise<User>{
+    return this.authService.findRandomDriverUser();
+  }
 }

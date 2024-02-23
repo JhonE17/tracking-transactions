@@ -38,9 +38,9 @@ export class AuthService {
         ...user,
         token: this.getJwtToken({
           id: user.id,
-        name: user.name,
-        lastName: user.lastName,
-        email: user.email,
+          name: user.name,
+          lastName: user.lastName,
+          email: user.email,
         }),
       };
     } catch (error) {
@@ -53,7 +53,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true, id: true, name: true, lastName: true },
+      select: { email: true, password: true, id: true, roles: true, name: true, lastName: true },
     });
 
     if (!user) throw new UnauthorizedException('Credentials are not valid (email)');
@@ -63,8 +63,8 @@ export class AuthService {
     delete user.password;
 
     return {
-     email: user.email,
-     name: user.name,
+      email: user.email,
+      name: user.name,
       token: this.getJwtToken({
         id: user.id,
         name: user.name,
@@ -72,6 +72,19 @@ export class AuthService {
         email: user.email,
       }),
     };
+  }
+
+  async findAll() {
+    const users = await this.userRepository.find();
+    return users;
+  }
+
+  async findRandomDriverUser(){
+    const user = await this.userRepository.createQueryBuilder()
+    .where("roles = :roles", { roles: 'driver'})
+    .orderBy("RANDOM()")
+    .getOne();
+    return user
   }
 
   async checkAuthStatus(user: User) {
