@@ -6,9 +6,9 @@ import { ValidRoles } from "../interfaces"
 
 
 
-export const Auth = (...roles: ValidRoles[]) =>{
+export const Auth = (roles?: ValidRoles) =>{
     return applyDecorators(
-        RoleProtected(...roles),
+        RoleProtected(roles),
         UseGuards( AuthGuard(), UserRoleGuard),
     )
 }
