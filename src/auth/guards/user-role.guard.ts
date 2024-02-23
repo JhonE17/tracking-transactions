@@ -1,3 +1,5 @@
+// user-role.guard.ts
+
 import { Reflector } from '@nestjs/core';
 import {
   BadRequestException,
@@ -15,20 +17,19 @@ export class UserRoleGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const validRoles: string[] = this.reflector.get(META_ROLES, context.getHandler());
-
-    if (!validRoles) return true;
-    if (validRoles.length === 0) return true;
+    const validRole: string = this.reflector.get(META_ROLES, context.getHandler());
+    
+    if (!validRole) return true;
 
     const req = context.switchToHttp().getRequest();
     const user = req.user as User;
 
     if (!user) throw new BadRequestException('User not found');
 
-    for (const role of user.roles) {
-      if (validRoles.includes(role)) return true;
+    if (user.roles.includes(validRole)) {
+      return true;
     }
 
-    throw new ForbiddenException(`User ${user.name} ${user.lastName} need a valid role: [${validRoles}]`);
+    throw new ForbiddenException(`User ${user.name} ${user.lastName} needs a valid role: ${validRole}`);
   }
 }
