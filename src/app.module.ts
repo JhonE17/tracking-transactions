@@ -9,9 +9,9 @@ import { TransportModule } from './transport/transport.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      ssl: process.env.STAGE === 'prod',
+      ssl: process.env.STATE === 'prod',
       extra: {
-        ssl: process.env.STAGE == 'prod' ? { rejectUnauthorized: false, sslmode: 'require' } : null,
+        ssl: process.env.STATE == 'prod' ? { rejectUnauthorized: false, sslmode: 'require' } : null,
       },
       type: 'postgres',
       host: process.env.DB_HOST,
